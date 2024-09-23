@@ -43,14 +43,13 @@ bot.on('message',async msg=>{
               console.log(error);
           }
       })
-      bot.on('successful_payment', ctx => {
+      bot.on('successful_payment', async ctx => {
         try {
-          bot.sendMessage(ctx.chat.id,"thank you")
-          usTg = msg.chat.username
+          sendMes(ctx,"thank you")
           usTg = msg.chat.username
             let obj={
               nick:"",
-              us:msg.chat.username,
+              us:usTg,
               value:0,
               coins:0
             }
@@ -61,7 +60,7 @@ bot.on('message',async msg=>{
             else{
               message.users[usTg].value+=1000
             }     
-            fs.writeFileSync("/message.json",JSON.stringify(message),{encoding:'utf8',flag:'w'})
+            await fs.writeFileSync("/message.json",JSON.stringify(message),{encoding:'utf8',flag:'w'})
         }
         catch(error) {
             console.log(error);
@@ -72,5 +71,5 @@ bot.on('message',async msg=>{
 })
 
 async function sendMes(msg,messa) {
-  bot.sendMessage(msg.chat.id,messa)
+  await bot.sendMessage(msg.chat.id,messa)
 }
